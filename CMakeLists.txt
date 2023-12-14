@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(MAIN_TARGET "MainTarget")
-file(GLOB MAIN_TARGET_SRC main.cpp)
+file(GLOB MAIN_TARGET_SRC "main.cpp" "src/*")
 add_executable(${MAIN_TARGET} ${MAIN_TARGET_SRC})
-target_include_directories(${MAIN_TARGET} PUBLIC algorithm.hpp)
+target_include_directories(${MAIN_TARGET} PUBLIC "include/")
 
 # Extra targets for address/memory checks on UNIX
 if(UNIX)
@@ -45,8 +45,9 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 set(TEST_TARGET "TestTarget")
-file(GLOB TEST_TARGET_SRC test.cpp)
+file(GLOB TEST_TARGET_SRC "test.cpp" "src/*")
 add_executable(${TEST_TARGET} ${TEST_TARGET_SRC})
+target_include_directories(${TEST_TARGET} PUBLIC "include/")
 target_link_libraries(${TEST_TARGET} GTest::gtest_main)
 
 include(GoogleTest)

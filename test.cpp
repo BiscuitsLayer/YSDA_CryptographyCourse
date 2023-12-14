@@ -4,7 +4,7 @@
 
 // Check for constants from article
 // https://habr.com/ru/articles/459004/
-TEST(LinearTransform, ConstantsCheck) {
+TEST(LinearTransform, RoundConstantsCheck) {
     std::vector<std::pair<KuznechikContext::Block, KuznechikContext::Block>> input_to_output = {
         {
             {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
@@ -136,8 +136,15 @@ TEST(LinearTransform, ConstantsCheck) {
         },
     };
 
+    // Check forward transform
     for (const auto& [input, output] : input_to_output) {
         KuznechikContext::Block input_copy = input;
-        EXPECT_EQ(LinearTransform()(input_copy), output);
+        EXPECT_EQ(LinearTransform::Forward(input_copy), output);
+    }
+
+    // Check backward transform
+    for (const auto& [input, output] : input_to_output) {
+        KuznechikContext::Block output_copy = output;
+        EXPECT_EQ(LinearTransform::Backward(output_copy), input);
     }
 }

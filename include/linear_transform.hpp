@@ -9,6 +9,6 @@ public:
         1, 148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 133, 32, 148
     };
 
-    static KuznechikContext::Block Forward(KuznechikContext::Block& block);
-    static KuznechikContext::Block Backward(KuznechikContext::Block& block);
+    static void Forward(KuznechikContext::Block& block);
+    static void Backward(KuznechikContext::Block& block);
 };

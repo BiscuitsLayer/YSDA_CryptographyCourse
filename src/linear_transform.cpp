@@ -1,6 +1,6 @@
 #include "linear_transform.hpp"
 
-KuznechikContext::Block LinearTransform::Forward(KuznechikContext::Block& block) {
+void LinearTransform::Forward(KuznechikContext::Block& block) {
     uint8_t result = 0;
 
     for (size_t shift_index = 0; shift_index < KuznechikContext::kBlockSize; ++shift_index) {
@@ -16,11 +16,9 @@ KuznechikContext::Block LinearTransform::Forward(KuznechikContext::Block& block)
         block[shift_index] = result;
         result = 0;
     }
-
-    return block;
 }
 
-KuznechikContext::Block LinearTransform::Backward(KuznechikContext::Block& block) {
+void LinearTransform::Backward(KuznechikContext::Block& block) {
     uint8_t result = 0;
 
     for (size_t shift_index = KuznechikContext::kBlockSize - 1; shift_index + 1 > 0 ; --shift_index) {
@@ -36,6 +34,4 @@ KuznechikContext::Block LinearTransform::Backward(KuznechikContext::Block& block
         block[shift_index] = result;
         result = 0;
     }
-
-    return block;
 }

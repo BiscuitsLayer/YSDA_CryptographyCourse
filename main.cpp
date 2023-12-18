@@ -8,8 +8,12 @@ int main() {
         0x10, 0x32, 0x54, 0x76, 0x98, 0xba, 0xdc, 0xfe
     };
 
-    KuznechikContext::GenerateRoundConstants();
-    KuznechikContext::GenerateRoundKeys(std::move(user_key));
+    auto context = KuznechikContext(std::move(user_key));
 
+    // Encrypt sample block
+    KuznechikContext::Block sample_block = {
+        0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff,
+        0x00, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
+    };
     return 0;
 }

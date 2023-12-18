@@ -7,12 +7,19 @@
 
 class KuznechikContext {
 public:
-    static constexpr size_t kBlockSize = 16;
-    static constexpr size_t kKeySize = 32;
+    // Sizes
+    static constexpr size_t kBlockSize = 16;    // block size = 128 bits
+    static constexpr size_t kKeySize = 32;      // key length = 256 bits
 
+    // Precomputed
     static constexpr size_t kRoundConstantsCount = 32;
     static constexpr size_t kRoundKeysCount = 10;
+    static constexpr size_t kRoundKeysFeistelCount = 8;
 
+    // Encrypt / decrypt
+    static constexpr size_t kEncryptFeistelCount = 10;
+
+    // Subtypes
     struct Block {
         std::array<uint8_t, kBlockSize> data = std::array<uint8_t, kBlockSize>{};
 
@@ -25,9 +32,19 @@ public:
     };
     using UserKey = std::array<uint8_t, kKeySize>;
 
-    static inline std::array<Block, kRoundConstantsCount> round_constants;
-    static inline std::array<Block, kRoundKeysCount> round_keys;
+    // Data
+    std::array<Block, kRoundConstantsCount> round_constants;
+    std::array<Block, kRoundKeysCount> round_keys;
 
-    static void GenerateRoundConstants();
-    static void GenerateRoundKeys(UserKey&& user_key);
+public:
+    KuznechikContext(UserKey&& user_key) {
+        GenerateRoundConstants();
+        GenerateRoundKeys(std::move(user_key));
+    }
+
+    void GenerateRoundConstants();
+    void GenerateRoundKeys(UserKey&& user_key);
+
+    void Encrypt(Block& block);
+    void Decrypt(Block& block);
 };

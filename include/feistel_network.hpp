@@ -4,7 +4,6 @@
 
 class FeistelNetwork {
 public:
-    static constexpr size_t kRoundsCount = 8;
-
-    static void Forward();
+    static KuznechikContext::Block Forward(const KuznechikContext::Block& lhs, const KuznechikContext::Block& rhs, 
+        const KuznechikContext::Block& non_linear_substituion_term);
 };

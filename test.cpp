@@ -174,10 +174,9 @@ TEST(LinearTransform, RoundKeysCheck) {
         {0x43, 0x40, 0x4a, 0x8e, 0xa8, 0xba, 0x5d, 0x75, 0x5b, 0xf4, 0xbc, 0x16, 0x74, 0xdd, 0xe9, 0x72},
     };
 
-    KuznechikContext::GenerateRoundConstants();
-    KuznechikContext::GenerateRoundKeys(std::move(user_key));
+    auto context = KuznechikContext(std::move(user_key));
 
     for (size_t round_key_index = 0; round_key_index < KuznechikContext::kRoundKeysCount; ++round_key_index) {
-        EXPECT_EQ(KuznechikContext::round_keys[round_key_index], correct_round_keys[round_key_index]);
+        EXPECT_EQ(context.round_keys[round_key_index], correct_round_keys[round_key_index]);
     }
 }

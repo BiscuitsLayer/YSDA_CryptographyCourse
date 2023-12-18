@@ -40,7 +40,7 @@ int main() {
 
     auto start = std::chrono::steady_clock::now();
 
-    int iterations_count = 20;
+    int iterations_count = 100;
     for (int i = 0; i < iterations_count; ++i) {
         for (auto& block : test_data) {
             context.Encrypt(block);

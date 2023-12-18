@@ -10,25 +10,13 @@ file(GLOB MAIN_TARGET_SRC "main.cpp" "src/*")
 add_executable(${MAIN_TARGET} ${MAIN_TARGET_SRC})
 target_include_directories(${MAIN_TARGET} PUBLIC "include/")
 
-# Extra targets for address/memory checks on UNIX
+# Extra targets for profiling with GPROF tool
 if(UNIX)
-    set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
-    set(CMAKE_CXX_FLAGS    "-Wall -g -std=c++17")
-
-    # Address sanitizer
-    add_executable(AddressSanitizerTarget ${MAIN_TARGET_SRC})
-    target_compile_options(AddressSanitizerTarget PRIVATE -fsanitize=address)
-    target_link_options(AddressSanitizerTarget PRIVATE -fsanitize=address)
-
-    # Memory sanitizer
-    add_executable(MemorySanitizerTarget ${MAIN_TARGET_SRC})
-    target_compile_options(MemorySanitizerTarget PRIVATE -fsanitize=memory)
-    target_link_options(MemorySanitizerTarget PRIVATE -fsanitize=memory)
-
-    # UB sanitizer
-    add_executable(UBSanitizerTarget ${MAIN_TARGET_SRC})
-    target_compile_options(UBSanitizerTarget PRIVATE -fsanitize=undefined)
-    target_link_options(UBSanitizerTarget PRIVATE -fsanitize=undefined)
+    # Profiler
+    set(PROFILER_TARGET "ProfilerTarget")
+    add_executable(${PROFILER_TARGET} ${MAIN_TARGET_SRC} ${MAIN_TARGET_SRC})
+    target_compile_options(${PROFILER_TARGET} PUBLIC "-pg")
+    target_include_directories(${PROFILER_TARGET} PUBLIC "include/")
 endif(UNIX)
 
 # Google Test

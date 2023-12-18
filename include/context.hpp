@@ -17,7 +17,7 @@ public:
     static constexpr size_t kRoundKeysFeistelCount = 8;
 
     // Encrypt / decrypt
-    static constexpr size_t kEncryptFeistelCount = 10;
+    static constexpr size_t kEncryptFeistelFullCount = 9;
 
     // Subtypes
     struct Block {

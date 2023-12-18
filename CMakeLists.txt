@@ -3,6 +3,7 @@ project(KuznechikCypher)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "-O3")
 
 set(MAIN_TARGET "MainTarget")
 file(GLOB MAIN_TARGET_SRC "main.cpp" "src/*")

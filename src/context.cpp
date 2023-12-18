@@ -70,9 +70,37 @@ void KuznechikContext::GenerateRoundKeys(UserKey&& user_key) {
 }
 
 void KuznechikContext::Encrypt(KuznechikContext::Block& block) {
+    auto&& new_block = std::move(block);
 
+    // Apply short Feistel network 9 times
+    for (size_t round_index = 0; round_index < kEncryptFeistelFullCount; ++round_index) {
+        const auto& non_linear_substituion_term = KuznechikContext::round_keys[round_index];
+        new_block = FeistelNetwork::Forward(block, non_linear_substituion_term);
+    }
+
+    // Apply XOR with the last round key
+    const auto& last_round_key = KuznechikContext::round_keys.back();
+    for (size_t byte_index = 0; byte_index < KuznechikContext::kBlockSize; ++byte_index) {
+        new_block[byte_index] ^= last_round_key[byte_index];
+    }
+
+    block = std::move(new_block);
 }
 
 void KuznechikContext::Decrypt(Block& block) {
+    auto&& new_block = std::move(block);
 
+    // Apply XOR with the last round key
+    const auto& last_round_key = KuznechikContext::round_keys.back();
+    for (size_t byte_index = 0; byte_index < KuznechikContext::kBlockSize; ++byte_index) {
+        new_block[byte_index] ^= last_round_key[byte_index];
+    }
+
+    // Apply inverse short Feistel network 9 times
+    for (size_t round_index = kEncryptFeistelFullCount - 1; round_index + 1 > 0; --round_index) {
+        const auto& non_linear_substituion_term = KuznechikContext::round_keys[round_index];
+        new_block = FeistelNetwork::Backward(block, non_linear_substituion_term);
+    }
+
+    block = std::move(new_block);
 }

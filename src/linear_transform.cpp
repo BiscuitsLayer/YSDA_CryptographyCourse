@@ -10,7 +10,7 @@ void LinearTransform::Forward(KuznechikContext::Block& block) {
             GaloisField::Element byte{block[byte_index]};
             GaloisField::Element coef{LinearTransform::coefficients[coef_index]};
 
-            result ^= coef * byte;
+            result ^= static_cast<uint8_t>(coef * byte);
         }
 
         block[shift_index] = result;
@@ -28,7 +28,7 @@ void LinearTransform::Backward(KuznechikContext::Block& block) {
             GaloisField::Element byte{block[byte_index]};
             GaloisField::Element coef{LinearTransform::coefficients[KuznechikContext::kBlockSize - coef_index - 1]};
 
-            result ^= coef * byte;
+            result ^= static_cast<uint8_t>(coef * byte);
         }
 
         block[shift_index] = result;

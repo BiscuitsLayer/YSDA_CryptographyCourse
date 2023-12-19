@@ -25,34 +25,5 @@ int main() {
     context.Decrypt(sample_block);
     std::cout << sample_block << std::endl;
 
-    ///////////////////////
-
-    const int kRandomSeed = 42;
-    std::mt19937 generator(kRandomSeed);
-    std::uniform_int_distribution<int> dist(0, 255);
-
-    std::array<KuznechikContext::Block, 6400> test_data;
-    for (auto& block : test_data) {
-        for (auto& elem : block.data) {
-            elem = static_cast<uint8_t>(dist(generator));
-        }
-    }
-
-    auto start = std::chrono::steady_clock::now();
-
-    int iterations_count = 100;
-    for (int i = 0; i < iterations_count; ++i) {
-        for (auto& block : test_data) {
-            context.Encrypt(block);
-            context.Decrypt(block);
-        }
-    }
-
-    auto end = std::chrono::steady_clock::now();
-    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-    double bytes_per_second = 2.0 * iterations_count * test_data.size() * KuznechikContext::kBlockSize / seconds;
-
-    std::cout << bytes_per_second / 1024 << "Kbytes/sec" << std::endl; // Kbytes per second
-
     return 0;
 }

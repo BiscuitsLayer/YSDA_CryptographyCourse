@@ -57,10 +57,9 @@ public:
         explicit Element(const uint8_t number)
         : primitive_power_(number_to_primitive_power[number]) {}
 
-        inline operator uint8_t() { return primitive_power_to_number[primitive_power_]; }
+        explicit inline operator uint8_t() { return primitive_power_to_number[primitive_power_]; }
 
         Element operator*(const Element other);
-        Element operator/(const Element other);
 
     private:
         uint8_t primitive_power_;

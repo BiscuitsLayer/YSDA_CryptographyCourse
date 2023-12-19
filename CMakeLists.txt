@@ -3,7 +3,6 @@ project(KuznechikCypher)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "-O3")
 
 set(MAIN_TARGET "MainTarget")
 file(GLOB MAIN_TARGET_SRC "main.cpp" "src/*")
@@ -12,11 +11,17 @@ target_include_directories(${MAIN_TARGET} PUBLIC "include/")
 
 # Extra targets for profiling with GPROF tool
 if(UNIX)
+    # UNIX speed flag
+    set(CMAKE_CXX_FLAGS "-Ofast")
+
     # Profiler
     set(PROFILER_TARGET "ProfilerTarget")
     add_executable(${PROFILER_TARGET} ${MAIN_TARGET_SRC} ${MAIN_TARGET_SRC})
     target_compile_options(${PROFILER_TARGET} PUBLIC "-pg")
     target_include_directories(${PROFILER_TARGET} PUBLIC "include/")
+else(UNIX)
+    # Windows speed flag
+    set(CMAKE_CXX_FLAGS "/Ox")
 endif(UNIX)
 
 # Google Test

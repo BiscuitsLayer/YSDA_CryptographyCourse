@@ -153,7 +153,7 @@ TEST(Global, SpeedTest) {
 
     auto start = std::chrono::steady_clock::now();
 
-    int iterations_count = 20;
+    int iterations_count = 100;
     for (int i = 0; i < iterations_count; ++i) {
         for (auto& block : test_data) {
             context.Encrypt(block);
@@ -162,8 +162,10 @@ TEST(Global, SpeedTest) {
     }
 
     auto end = std::chrono::steady_clock::now();
-    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-    double bytes_per_second = 2.0 * iterations_count * test_data.size() * KuznechikContext::kBlockSize / seconds;
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    double bytes_per_second = 2.0 * iterations_count * test_data.size() * KuznechikContext::kBlockSize * 1000.0 / milliseconds;
 
-    std::cout << COUT_GTEST_MAGENTA << "Speed: " << bytes_per_second / 1024 << " Kbytes / sec" << ANSI_TXT_DEFAULT << std::endl;
+    std::cout.setf(std::ios::fixed);
+    std::cout.precision(3);
+    std::cout << COUT_GTEST_MAGENTA << "Speed: " << bytes_per_second / (1024 * 1024) << " Mbytes / sec" << ANSI_TXT_DEFAULT << std::endl;
 }

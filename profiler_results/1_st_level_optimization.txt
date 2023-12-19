@@ -1,0 +1,64 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 19.71      0.55     0.55                             LinearTransform::Forward(KuznechikContext::Block&)
+ 13.44      0.93     0.38                             LinearTransform::Backward(KuznechikContext::Block&)
+ 10.75      1.23     0.30                             std::__array_traits<unsigned char, 16ul>::_S_ref(unsigned char const (&) [16], unsigned long)
+  8.06      1.45     0.23                             KuznechikContext::Block::operator[](unsigned long)
+  6.27      1.62     0.17                             std::array<unsigned char, 16ul>::operator[](unsigned long)
+  6.09      1.79     0.17                             std::array<unsigned char, 16ul>::operator[](unsigned long) const
+  5.73      1.96     0.16                             std::array<std::array<unsigned char, 256ul>, 256ul>::operator[](unsigned long)
+  5.02      2.10     0.14                             std::array<unsigned char, 256ul>::operator[](unsigned long)
+  3.94      2.21     0.11                             std::__array_traits<std::array<unsigned char, 256ul>, 256ul>::_S_ref(std::array<unsigned char, 256ul> const (&) [256], unsigned long)
+  3.41      2.30     0.10                             std::__array_traits<unsigned char, 256ul>::_S_ref(unsigned char const (&) [256], unsigned long)
+  2.33      2.37     0.07                             std::remove_reference<KuznechikContext::Block&>::type&& std::move<KuznechikContext::Block&>(KuznechikContext::Block&)
+  2.15      2.42     0.06                             FeistelNetwork::Forward(KuznechikContext::Block const&, KuznechikContext::Block const&)
+  1.79      2.48     0.05                             _GLOBAL__sub_I__ZN15LinearTransform7ForwardERN16KuznechikContext5BlockE
+  1.79      2.52     0.05                             GaloisField::Element::operator unsigned char()
+  1.79      2.58     0.05                             FeistelNetwork::Backward(KuznechikContext::Block const&, KuznechikContext::Block const&)
+  1.79      2.62     0.05                             std::array<unsigned char, 16ul>::size() const
+  1.43      2.67     0.04                             KuznechikContext::Block::operator[](unsigned long) const
+  1.25      2.70     0.04                             std::setw(int)
+  0.90      2.73     0.03                             GaloisField::GenerateMultiplicationResults()
+  0.36      2.73     0.01                             KuznechikContext::Decrypt(KuznechikContext::Block&)
+  0.36      2.75     0.01                             KuznechikContext::Encrypt(KuznechikContext::Block&)
+  0.36      2.75     0.01                             NonlinearSubstitution::Forward(unsigned char)
+  0.36      2.77     0.01                             NonlinearSubstitution::Backward(unsigned char)
+  0.36      2.77     0.01                             std::array<unsigned char, 256ul>::operator[](unsigned long) const
+  0.36      2.79     0.01                             std::array<KuznechikContext::Block, 10ul>::end()
+  0.18      2.79     0.01                             __static_initialization_and_destruction_0(int, int)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.

@@ -50,6 +50,10 @@ public:
         220, 172, 190,  42,  82,  87, 246, 111,  19,  27, 241, 194, 206, 128, 203,  79,
     };
 
+    static inline std::array<std::array<uint8_t, kOrderValue>, kOrderValue> multiplication_results;
+
+    static void GenerateMultiplicationResults();
+
     class Element {
     public:
         Element(): primitive_power_(0) {}
@@ -59,7 +63,7 @@ public:
 
         explicit inline operator uint8_t() { return primitive_power_to_number[primitive_power_]; }
 
-        Element operator*(const Element other);
+        Element operator*(Element other);
 
     private:
         uint8_t primitive_power_;

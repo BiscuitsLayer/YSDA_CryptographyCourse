@@ -37,10 +37,7 @@ public:
     std::array<Block, kRoundKeysCount> round_keys;
 
 public:
-    KuznechikContext(UserKey&& user_key) {
-        GenerateRoundConstants();
-        GenerateRoundKeys(std::move(user_key));
-    }
+    KuznechikContext(UserKey&& user_key);
 
     void GenerateRoundConstants();
     void GenerateRoundKeys(UserKey&& user_key);

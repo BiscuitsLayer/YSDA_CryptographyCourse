@@ -5,6 +5,9 @@ project(KuznechikCypher)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Optimization levels
+add_definitions(-DOPTIMIZATION_LEVEL_1)
+
 # Main target
 set(MAIN_TARGET "MainTarget")
 file(GLOB MAIN_TARGET_SRC "main.cpp" "src/*")
@@ -31,8 +34,8 @@ if(UNIX)
     target_compile_options(${TEST_TARGET} PUBLIC "-Ofast")
 else(UNIX)
     # Windows speed flag
-    target_compile_options(${MAIN_TARGET} PUBLIC "/Ox")
-    target_compile_options(${TEST_TARGET} PUBLIC "/Ox")
+    # target_compile_options(${MAIN_TARGET} PUBLIC "/Ox")
+    # target_compile_options(${TEST_TARGET} PUBLIC "/Ox")
 endif(UNIX)
 
 # Google Test
@@ -47,6 +50,11 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Profiler target
+# To execute profiler run the following commands:
+#   ./ProfilerTarget
+#   gprof ProfilerTarget > profiler_results.txt
+#   cat profiler_results.txt
+# At the top you will see the timing for each function
 if(UNIX)
     set(PROFILER_TARGET "ProfilerTarget")
     add_executable(${PROFILER_TARGET} ${TEST_TARGET_SRC})

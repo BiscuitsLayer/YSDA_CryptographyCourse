@@ -1,6 +1,7 @@
 #include "context.hpp"
-#include "linear_transform.hpp"
 #include "feistel_network.hpp"
+#include "galois_field.hpp"
+#include "linear_transform.hpp"
 
 std::ostream& operator<<(std::ostream& stream, const KuznechikContext::Block& block) {
     stream << '{';
@@ -23,6 +24,15 @@ bool KuznechikContext::Block::operator==(const Block& other) const {
         }
     }
     return true;
+}
+
+KuznechikContext::KuznechikContext(UserKey&& user_key) {
+#ifdef OPTIMIZATION_LEVEL_1
+    GaloisField::GenerateMultiplicationResults();
+#endif // OPTIMIZATION_LEVEL_1
+
+    GenerateRoundConstants();
+    GenerateRoundKeys(std::move(user_key));
 }
 
 void KuznechikContext::GenerateRoundConstants() {

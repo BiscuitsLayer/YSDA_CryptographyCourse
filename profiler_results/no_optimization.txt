@@ -1,0 +1,61 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 14.58      0.86     0.86                             LinearTransform::Backward(KuznechikContext::Block&)
+ 14.32      1.71     0.84                             GaloisField::Element::Element(unsigned char)
+ 13.05      2.48     0.77                             LinearTransform::Forward(KuznechikContext::Block&)
+ 11.19      3.13     0.66                             GaloisField::Element::operator*(GaloisField::Element)
+  7.54      3.58     0.45                             std::array<unsigned char, 256ul>::operator[](unsigned long) const
+  5.34      3.90     0.32                             std::__array_traits<unsigned char, 256ul>::_S_ref(unsigned char const (&) [256], unsigned long)
+  5.08      4.20     0.30                             KuznechikContext::Block::operator[](unsigned long)
+  4.32      4.45     0.26                             std::array<unsigned char, 16ul>::operator[](unsigned long)
+  4.24      4.70     0.25                             std::__array_traits<unsigned char, 16ul>::_S_ref(unsigned char const (&) [16], unsigned long)
+  3.56      4.91     0.21                             std::array<unsigned char, 16ul>::operator[](unsigned long) const
+  3.22      5.10     0.19                             GaloisField::Element::operator unsigned char()
+  3.05      5.28     0.18                             GaloisField::Element::Element()
+  2.37      5.42     0.14                             NonlinearSubstitution::Backward(unsigned char)
+  1.69      5.52     0.10                             std::array<unsigned char, 16ul>::size() const
+  1.69      5.62     0.10                             std::array<KuznechikContext::Block, 10ul>::back()
+  1.27      5.70     0.07                             _GLOBAL__sub_I__ZN15LinearTransform7ForwardERN16KuznechikContext5BlockE
+  1.19      5.76     0.07                             FeistelNetwork::Forward(KuznechikContext::Block const&, KuznechikContext::Block const&)
+  0.85      5.82     0.05                             FeistelNetwork::Backward(KuznechikContext::Block const&, KuznechikContext::Block const&)
+  0.51      5.84     0.03                             std::setw(int)
+  0.34      5.87     0.02                             std::_Setfill<char> std::setfill<char>(char)
+  0.25      5.88     0.01                             std::remove_reference<KuznechikContext::Block&>::type&& std::move<KuznechikContext::Block&>(KuznechikContext::Block&)
+  0.17      5.89     0.01                             NonlinearSubstitution::Forward(unsigned char)
+  0.17      5.90     0.01                             KuznechikContext::Block::operator[](unsigned long) const
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.

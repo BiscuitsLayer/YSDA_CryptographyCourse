@@ -1,6 +1,6 @@
 #pragma once
 
-#include <x86intrin.h>
+#include <immintrin.h>
 
 #include "context.hpp"
 #include "galois_field.hpp"

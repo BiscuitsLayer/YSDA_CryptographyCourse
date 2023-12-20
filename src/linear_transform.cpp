@@ -70,14 +70,14 @@ void LinearTransform::Forward(KuznechikContext::Block& block) {
 
     for (size_t shift_index = 0; shift_index < KuznechikContext::kBlockSize; ++shift_index) {
         // Load elements
-        __m256 ans_elements = _mm256_loadu_ps((float*)ans.data.data());
-        __m256 linear_transform_matrix_elements = _mm256_loadu_ps((float*)linear_transform_matrix[shift_index][block[shift_index]].data.data());
+        __m128 ans_elements = _mm_loadu_ps((float*)ans.data.data());
+        __m128 linear_transform_matrix_elements = _mm_loadu_ps((float*)linear_transform_matrix[shift_index][block[shift_index]].data.data());
 
         // Apply XOR
-        __m256 xor_result_elements = _mm256_xor_ps(ans_elements, linear_transform_matrix_elements);
+        __m128 xor_result_elements = _mm_xor_ps(ans_elements, linear_transform_matrix_elements);
 
         // Store elements
-        _mm256_storeu_ps((float*)ans.data.data(), xor_result_elements);
+        _mm_storeu_ps((float*)ans.data.data(), xor_result_elements);
     }
 
     block = std::move(ans);
@@ -92,14 +92,14 @@ void LinearTransform::Backward(KuznechikContext::Block& block) {
 
     for (size_t shift_index = 0; shift_index < KuznechikContext::kBlockSize; ++shift_index) {
         // Load elements
-        __m256 ans_elements = _mm256_loadu_ps((float*)ans.data.data());
-        __m256 inverted_linear_transform_matrix_elements = _mm256_loadu_ps((float*)inverted_linear_transform_matrix[shift_index][block[shift_index]].data.data());
+        __m128 ans_elements = _mm_loadu_ps((float*)ans.data.data());
+        __m128 inverted_linear_transform_matrix_elements = _mm_loadu_ps((float*)inverted_linear_transform_matrix[shift_index][block[shift_index]].data.data());
 
         // Apply XOR
-        __m256 xor_result_elements = _mm256_xor_ps(ans_elements, inverted_linear_transform_matrix_elements);
+        __m128 xor_result_elements = _mm_xor_ps(ans_elements, inverted_linear_transform_matrix_elements);
 
         // Store elements
-        _mm256_storeu_ps((float*)ans.data.data(), xor_result_elements);
+        _mm_storeu_ps((float*)ans.data.data(), xor_result_elements);
     }
 
     block = std::move(ans);

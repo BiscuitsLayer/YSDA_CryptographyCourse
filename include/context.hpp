@@ -21,7 +21,7 @@ public:
 
     // Subtypes
     struct Block {
-        alignas(16) std::array<uint8_t, kBlockSize> data = std::array<uint8_t, kBlockSize>{};
+        std::array<uint8_t, kBlockSize> data = std::array<uint8_t, kBlockSize>{};
 
         inline uint8_t& operator[](const size_t index) { return data[index]; }
         inline uint8_t operator[](const size_t index) const { return data[index]; }

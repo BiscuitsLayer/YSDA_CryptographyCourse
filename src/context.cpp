@@ -31,6 +31,10 @@ KuznechikContext::KuznechikContext(UserKey&& user_key) {
     GaloisField::GenerateMultiplicationResults();
 #endif // OPTIMIZATION_LEVEL_1
 
+#ifdef OPTIMIZATION_LEVEL_2
+    LinearTransform::GenerateLinearTransformMatrices();
+#endif // OPTIMIZATION_LEVEL_2
+
     GenerateRoundConstants();
     GenerateRoundKeys(std::move(user_key));
 }
@@ -106,7 +110,7 @@ void KuznechikContext::Decrypt(Block& block) {
         new_block[byte_index] ^= last_round_key[byte_index];
     }
 
-    // Apply inverse short Feistel network 9 times
+    // Apply inverted short Feistel network 9 times
     for (size_t round_index = kEncryptFeistelFullCount - 1; round_index + 1 > 0; --round_index) {
         const auto& non_linear_substituion_term = KuznechikContext::round_keys[round_index];
         FeistelNetwork::Backward(new_block, non_linear_substituion_term);

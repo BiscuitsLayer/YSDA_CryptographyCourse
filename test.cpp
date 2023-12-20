@@ -153,7 +153,7 @@ TEST(Global, SpeedTest) {
 
     auto start = std::chrono::steady_clock::now();
 
-    int iterations_count = 10;
+    int iterations_count = 1'000;
     for (int i = 0; i < iterations_count; ++i) {
         for (auto& block : test_data) {
             context.Encrypt(block);

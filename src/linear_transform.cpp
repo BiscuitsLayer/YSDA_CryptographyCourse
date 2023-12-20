@@ -1,6 +1,6 @@
 #include "linear_transform.hpp"
 
-void LinearTransform::Forward(KuznechikContext::Block& block) {
+void LinearTransform::ForwardPrecompute(KuznechikContext::Block& block) {
     uint8_t result = 0;
 
     for (size_t shift_index = 0; shift_index < KuznechikContext::kBlockSize; ++shift_index) {
@@ -21,7 +21,7 @@ void LinearTransform::Forward(KuznechikContext::Block& block) {
     }
 }
 
-void LinearTransform::Backward(KuznechikContext::Block& block) {
+void LinearTransform::BackwardPrecompute(KuznechikContext::Block& block) {
     uint8_t result = 0;
 
     for (size_t shift_index = KuznechikContext::kBlockSize - 1; shift_index + 1 > 0 ; --shift_index) {
@@ -40,4 +40,68 @@ void LinearTransform::Backward(KuznechikContext::Block& block) {
         block[shift_index] = result;
         result = 0;
     }
+}
+
+void LinearTransform::GenerateLinearTransformMatrices() {
+    // Iterate over every byte in the block and every possible value for it
+    for (size_t byte_index = 0; byte_index < KuznechikContext::kBlockSize; ++byte_index) {
+        for (size_t value = 0; value < GaloisField::kOrderValue; ++value) {
+            KuznechikContext::Block block;
+            block[byte_index] = value;
+
+            // Apply linear transform for that simplest element and save the result
+            auto block_forward = block;
+            LinearTransform::ForwardPrecompute(block_forward);
+            linear_transform_matrix[byte_index][value] = block_forward;
+
+            // Apply inverted linear transform for that simplest element and save the result
+            auto block_backward = block;
+            LinearTransform::BackwardPrecompute(block_backward);
+            inverted_linear_transform_matrix[byte_index][value] = block_backward;
+        }
+    }
+}
+
+void LinearTransform::Forward(KuznechikContext::Block& block) {
+#ifndef OPTIMIZATION_LEVEL_2
+    return ForwardPrecompute(block);
+#else // OPTIMIZATION_LEVEL_2
+    KuznechikContext::Block ans;
+
+    for (size_t shift_index = 0; shift_index < KuznechikContext::kBlockSize; ++shift_index) {
+        // Load elements
+        __m256 ans_elements = _mm256_loadu_ps((float*)ans.data.data());
+        __m256 linear_transform_matrix_elements = _mm256_loadu_ps((float*)linear_transform_matrix[shift_index][block[shift_index]].data.data());
+
+        // Apply XOR
+        __m256 xor_result_elements = _mm256_xor_ps(ans_elements, linear_transform_matrix_elements);
+
+        // Store elements
+        _mm256_storeu_ps((float*)ans.data.data(), xor_result_elements);
+    }
+
+    block = std::move(ans);
+#endif // OPTIMIZATION_LEVEL_2
+}
+
+void LinearTransform::Backward(KuznechikContext::Block& block) {
+#ifndef OPTIMIZATION_LEVEL_2
+    return BackwardPrecompute(block);
+#else // OPTIMIZATION_LEVEL_2
+    KuznechikContext::Block ans;
+
+    for (size_t shift_index = 0; shift_index < KuznechikContext::kBlockSize; ++shift_index) {
+        // Load elements
+        __m256 ans_elements = _mm256_loadu_ps((float*)ans.data.data());
+        __m256 inverted_linear_transform_matrix_elements = _mm256_loadu_ps((float*)inverted_linear_transform_matrix[shift_index][block[shift_index]].data.data());
+
+        // Apply XOR
+        __m256 xor_result_elements = _mm256_xor_ps(ans_elements, inverted_linear_transform_matrix_elements);
+
+        // Store elements
+        _mm256_storeu_ps((float*)ans.data.data(), xor_result_elements);
+    }
+
+    block = std::move(ans);
+#endif // OPTIMIZATION_LEVEL_2
 }

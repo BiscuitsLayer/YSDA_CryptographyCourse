@@ -18,10 +18,10 @@ void FeistelNetwork::Forward(KuznechikContext::Block& lhs,
 
 void FeistelNetwork::Backward(KuznechikContext::Block& lhs, 
     const KuznechikContext::Block& non_linear_substituion_term) {
-    // Apply inverse linear transform
+    // Apply inverted linear transform
     LinearTransform::Backward(lhs);
 
-    // Apply XOR and inverse non-linear transform consistently
+    // Apply XOR and inverted non-linear transform consistently
     for (size_t byte_index = 0; byte_index < KuznechikContext::kBlockSize; ++byte_index) {
         lhs[byte_index] = NonlinearSubstitution::Backward(lhs[byte_index]) ^ 
             non_linear_substituion_term[byte_index];

@@ -8,6 +8,13 @@
 add_definitions(-DOPTIMIZATION_LEVEL_1)
 ```
 
+2. Оптимизация линейного преобразования (описана в [статье](https://habr.com/ru/articles/312224/))
+
+Для включения добавить в начале *CMakeLists.txt*:
+```
+add_definitions(-DOPTIMIZATION_LEVEL_2)
+```
+
 
 ## Математика
 [Хабр: Конечное поле GF(256) и немного магии](https://habr.com/ru/articles/279197/)
